@@ -13,8 +13,9 @@ const LoginForm = () => {
     if (firebase.apps.length === 0) {
       firebase.initializeApp(firebaseConfig);
     }
-    const provider = new firebase.auth.GoogleAuthProvider();
 
+    //google login
+    const provider = new firebase.auth.GoogleAuthProvider();
     firebase
       .auth()
       .signInWithPopup(provider)

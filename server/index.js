@@ -1,10 +1,12 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const MongoClient = require("mongodb").MongoClient;
 require("dotenv").config();
 const port = 5000;
 
 // middleware setup
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -30,21 +32,44 @@ client.connect((err) => {
   // movie collection post method
   app.post("/movie/insert", (req, res) => {
     const movie = req.body;
-    movieCollection.insertMany(movie)
-    .then((result) => {
-        if(result.insertedCount > 0) {
-            res.json({
-                success: true,
-                data: movie
-            })
+    movieCollection
+      .insertMany(movie)
+      .then((result) => {
+        if (result.insertedCount > 0) {
+          res.json({
+            success: true,
+            data: movie,
+          });
         }
-    })
-    .catch(error => {
+      })
+      .catch((error) => {
         res.json({
-            success: false,
-            error: error
-        })
-    })
+          success: false,
+          error: error,
+        });
+      });
+  });
+
+  // movie collection get method
+  app.get("/movie/getall", (req, res) => {
+    movieCollection.find({}).toArray((error, movies) => {
+      if (movies.length > 0 && !error) {
+        res.json({
+          success: true,
+          data: movies,
+        });
+      } else if (movies.length === 0) {
+        res.json({
+          success: true,
+          data: "Movie Collection is Empty",
+        });
+      } else {
+        res.json({
+          success: false,
+          error: error,
+        });
+      }
+    });
   });
 
   // console log for db connection showing up

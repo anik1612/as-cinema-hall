@@ -1,12 +1,14 @@
-import React from 'react';
-import Header from '../../components/Header/Header';
+import React from "react";
+import Header from "../../components/Header/Header";
+import MovieLists from "../../components/MovieLists/MovieLists";
 
 const Home = () => {
-    return (
-        <>
-            <Header />
-        </>
-    );
+  return (
+    <>
+      <Header />
+      <MovieLists />
+    </>
+  );
 };
 
 export default Home;
