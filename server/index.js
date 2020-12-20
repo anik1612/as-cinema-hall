@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const MongoClient = require("mongodb").MongoClient;
+const { ObjectId } = require("mongodb");
 require("dotenv").config();
 const port = 5000;
 
@@ -99,7 +100,8 @@ client.connect((err) => {
 
   // movie seat reservation get method
   app.get("/movie/reservation", (req, res) => {
-    reservationCollection.find({}).toArray((err, reservations) => {
+    const name = req.query.name
+    reservationCollection.find({name}).toArray((err, reservations) => {
       if (!err && reservations.length > 0) {
         res.json({
           success: true,
@@ -141,6 +143,48 @@ client.connect((err) => {
       }
     });
   });
+
+  // ticket booking information store post route
+  app.post("/movie/ticket/booking", (req, res) => {
+    const booking = req.body;
+    reservationCollection
+      .insertOne(booking)
+      .then((result) => {
+        if (result.insertedCount > 0) {
+          res.json({
+            success: true,
+            data: seat,
+          });
+        }
+      })
+      .catch((error) => {
+        res.json({
+          success: false,
+          error: error,
+        });
+      });
+  });
+
+  // update booked seat count
+  app.patch('/movie/update/:id', (req, res) => {
+    console.log(req.body);
+    movieCollection.updateOne({ _id: ObjectId(req.params.id) },
+        {
+            $set: { bookedSeat: req.body.bookedSeat }
+        })
+        .then(result => {
+            res.json({
+              success: true,
+              message: 'Update Successfully'
+            })
+        })
+        .catch(error => {
+          res.json({
+            success: false,
+            message: 'Something went wrong'
+          })
+        })
+})
 
   // console log for db connection showing up
   console.log("database connected");
