@@ -1,7 +1,15 @@
-.home-container {
+.booking-container {
     background-image: url('../../images/image/booking-bg.jpg');
     background-attachment: fixed;
     background-size: cover;
     min-height: 100vh;
     width: auto;
+}
+
+.card-shadow {
+    box-shadow: 1px 1px 7px white;
+}
+
+.row {
+    margin: 0;
 }

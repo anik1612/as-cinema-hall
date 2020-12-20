@@ -4,8 +4,10 @@ import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import { createContext } from "react";
 import useLocalStorageState from "use-local-storage-state/dist";
+import Bookings from "./pages/Bookings/Bookings";
 
 export const UserContext = createContext([]);
+export const SelectedMovieContext = createContext([]);
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useLocalStorageState("loggedInUser", {
@@ -14,18 +16,24 @@ function App() {
     email: "",
     image: "",
   });
+  const [selectedMovie, setSelectedMovie] = useLocalStorageState('selectedMovie', {})
   return (
     <UserContext.Provider value={[loggedInUser, setLoggedInUser]}>
-      <Router>
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-        </Switch>
-      </Router>
+      <SelectedMovieContext.Provider value={[selectedMovie, setSelectedMovie]}>
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/bookings">
+              <Bookings />
+            </Route>
+          </Switch>
+        </Router>
+      </SelectedMovieContext.Provider>
     </UserContext.Provider>
   );
 }

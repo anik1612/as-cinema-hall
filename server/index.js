@@ -18,10 +18,14 @@ const client = new MongoClient(uri, {
 
 // db client connection method
 client.connect((err) => {
-  // collection list
+  // collection list 1
   const movieCollection = client
     .db(process.env.DB)
     .collection(process.env.COLLECTION_1);
+  // collection list 2
+  const reservationCollection = client
+    .db(process.env.DB)
+    .collection(process.env.COLLECTION_2);
 
   // all route list start from here
   // root route
@@ -62,6 +66,72 @@ client.connect((err) => {
         res.json({
           success: true,
           data: "Movie Collection is Empty",
+        });
+      } else {
+        res.json({
+          success: false,
+          error: error,
+        });
+      }
+    });
+  });
+
+  // movie seat reservation post method
+  app.post("/movie/reservation", (req, res) => {
+    const seat = req.body;
+    reservationCollection
+      .insertMany(seat)
+      .then((result) => {
+        if (result.insertedCount > 0) {
+          res.json({
+            success: true,
+            data: seat,
+          });
+        }
+      })
+      .catch((error) => {
+        res.json({
+          success: false,
+          error: error,
+        });
+      });
+  });
+
+  // movie seat reservation get method
+  app.get("/movie/reservation", (req, res) => {
+    reservationCollection.find({}).toArray((err, reservations) => {
+      if (!err && reservations.length > 0) {
+        res.json({
+          success: true,
+          data: reservations,
+        });
+      } else if (reservations.length === 0) {
+        res.json({
+          success: true,
+          data: "All Seat is Empty & Ready For booking",
+        });
+      } else {
+        res.json({
+          success: false,
+          error: error,
+        });
+      }
+    });
+  });
+
+  // get specific movie available seat by movie name
+  app.get("/movie", (req, res) => {
+    const movieName = req.query.name;
+    movieCollection.find({ movieName }).toArray((error, movie) => {
+      if (!error && movie.length > 0) {
+        res.json({
+          success: true,
+          data: movie,
+        });
+      } else if (movie.length === 0) {
+        res.json({
+          success: true,
+          data: "Nothing found",
         });
       } else {
         res.json({

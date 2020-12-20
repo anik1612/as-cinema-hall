@@ -8,8 +8,8 @@ import { UserContext } from "../../App";
 const Header = () => {
   const [loggedInUser, setLoggedInUser] = useContext(UserContext);
   return (
-    <div class="bg-dark header">
-      <nav class="navbar navbar-expand-lg navbar-light container bg-dark py-2">
+    <div class="bg-dark header sticky-top">
+      <nav class="navbar navbar-expand-lg sticky-top navbar-light container bg-dark py-2">
         <Link to="/" class="navbar-brand" href="#">
           <img src={brandImg} alt="brand-img" />
         </Link>

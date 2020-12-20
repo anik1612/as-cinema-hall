@@ -4,9 +4,11 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import { firebaseConfig } from "../../pages/Login/firebase.config";
 import { UserContext } from "../../App";
+import { useHistory } from "react-router-dom";
 
 const LoginForm = () => {
   const [loggedInUser, setLoggedInUser] = useContext(UserContext);
+  let history = useHistory();
 
   const handleLogin = () => {
     // Initialize Firebase
@@ -27,9 +29,11 @@ const LoginForm = () => {
           email: email,
           image: photoURL,
         });
+        history.push('/bookings');
       })
       .catch((error) => {
         console.log(error);
+        history.push('/login');
       });
   };
 
