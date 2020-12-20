@@ -1,0 +1,4 @@
+# ignored file
+node_modules/
+.env
+.eslintcache

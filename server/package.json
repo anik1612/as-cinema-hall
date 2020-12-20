@@ -1,0 +1,15 @@
+{
+  "name": "as-cinema-hall-server",
+  "version": "1.0.0",
+  "description": "this is a demo ticket booking site server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anik Sarker",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^3.6.3"
+  }
+}
