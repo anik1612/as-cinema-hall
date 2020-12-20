@@ -5,6 +5,8 @@ import Login from "./pages/Login/Login";
 import { createContext } from "react";
 import useLocalStorageState from "use-local-storage-state/dist";
 import Bookings from "./pages/Bookings/Bookings";
+import NoMatch from "./pages/NoMatch";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 export const UserContext = createContext([]);
 export const SelectedMovieContext = createContext([]);
@@ -16,7 +18,10 @@ function App() {
     email: "",
     image: "",
   });
-  const [selectedMovie, setSelectedMovie] = useLocalStorageState('selectedMovie', {})
+  const [selectedMovie, setSelectedMovie] = useLocalStorageState(
+    "selectedMovie",
+    {}
+  );
   return (
     <UserContext.Provider value={[loggedInUser, setLoggedInUser]}>
       <SelectedMovieContext.Provider value={[selectedMovie, setSelectedMovie]}>
@@ -28,8 +33,11 @@ function App() {
             <Route path="/login">
               <Login />
             </Route>
-            <Route path="/bookings">
+            <PrivateRoute path="/bookings">
               <Bookings />
+            </PrivateRoute>
+            <Route path="*">
+              <NoMatch />
             </Route>
           </Switch>
         </Router>

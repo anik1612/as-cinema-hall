@@ -1,19 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
-import { SelectedMovieContext } from "../../App";
+import { SelectedMovieContext, UserContext } from "../../App";
 import "./BookingForm.css";
 import Axios from "axios";
 import Seat from "../Seat/Seat";
 import { faCouch, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import swal from "sweetalert";
 
 const BookingForm = () => {
   const [selectedMovie, setSelectedMovie] = useContext(SelectedMovieContext);
   const [counts, setCounts] = useState([]);
   const [cart, setCart] = useState([]);
+  const [loggedInUser, setLoggedInUser] = useContext(UserContext);
 
   useEffect(() => {
     const movieName = selectedMovie.movieName;
-    Axios.get(`http://localhost:5000/movie?name=${movieName}`).then((data) => {
+    Axios.get(`https://as-cinema-hall.herokuapp.com/movie?name=${movieName}`).then((data) => {
       setCounts(data.data.data[0].seatReservation);
     });
   }, []);
@@ -23,27 +25,58 @@ const BookingForm = () => {
     const isExisting = cart.find((item) => item === seat);
     if (cart.length < 10) {
       if (isExisting) {
-        alert("seat occupied");
+        swal("Sorry", "you have already choose this seat");
       } else {
         const newCart = [...cart, seat];
         setCart(newCart);
       }
     } else {
-      alert(`You can't buy more than 10 ticket at a time`);
+      swal("Sorry", `You can't buy more than 10 ticket at a time`);
     }
   };
 
-  // remove selected ticket if want 
+  // remove selected ticket if want
   const handleRemoveItem = (item) => {
-    const remainItem = cart.filter(cartItem => cartItem  !== item);
+    const remainItem = cart.filter((cartItem) => cartItem !== item);
     setCart(remainItem);
   };
 
   // ticket confirm button
   const handleConfirmBtn = () => {
-    
+    const name = loggedInUser.name;
+    Axios.post("https://as-cinema-hall.herokuapp.com/movie/ticket/booking", {
+      name,
+      selectedMovie,
+      cart,
+    })
+      .then((data) => {
+        if (data.data) {
+          updateBookedSeat();
+          swal(
+            "success",
+            "your booking has been placed successfully",
+            "success"
+          );
+        }
+      })
+      .catch((error) => {
+        swal("error", `${error}`, "error");
+      });
   };
 
+  const updateBookedSeat = () => {
+    // update booked seat counts
+    const id = selectedMovie._id;
+    Axios.patch(`https://as-cinema-hall.herokuapp.com/movie/update/${id}`, {
+      bookedSeat: cart.length,
+    })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        swal("error", `${error}`, "error");
+      });
+  };
 
   return (
     <div className="booking-container">
@@ -110,7 +143,9 @@ const BookingForm = () => {
                   {cart.map((item) => {
                     return (
                       <h5 className="text-center bg-danger p-2 border rounded text-white">
-                        <p className="mb-3 p-1 bg-dark border rounded">{item.i}</p>
+                        <p className="mb-3 p-1 bg-dark border rounded">
+                          {item.i}
+                        </p>
                         <FontAwesomeIcon icon={faCouch} />
                         <button
                           onClick={() => handleRemoveItem(item)}
