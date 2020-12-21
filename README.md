@@ -2,6 +2,14 @@
 
 This is a movie ticket booking website.
 
+# About Project Technology:
+* React JS (Frontend Framework)
+* Bootstrap
+* Express JS (Backend Framework)
+* MongoDB (Database)
+* Firebase (Hosting & google Authentication)
+* Heroku (Server side deployment)
+
 # Project ScreenShot
 
 ### Home page
