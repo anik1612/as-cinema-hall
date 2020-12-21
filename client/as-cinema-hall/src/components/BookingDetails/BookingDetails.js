@@ -5,12 +5,15 @@ import React, { useContext, useEffect, useState } from "react";
 import swal from "sweetalert";
 import { UserContext } from "../../App";
 import Preloader from "../Preloader/Preloader";
+import './BookingDetails.css'
 
 const BookingDetails = () => {
   const [cart, setCart] = useState([]);
   const [loggedInUser, setLoggedInUser] = useContext(UserContext);
   const [preloader, setPreloader] = useState(true);
   const name = loggedInUser.name;
+
+  const goBack = () => window.history.back();
 
   useEffect(() => {
     Axios.get(
@@ -38,7 +41,7 @@ const BookingDetails = () => {
                 <div className="booking-details">
                   {cart.map((cartItem) => {
                     return (
-                      <h5 className="btn btn-success m-2">
+                      <h5 className="btn btn-info m-2">
                         {cartItem.i} <FontAwesomeIcon icon={faCouch} />
                       </h5>
                     );
@@ -47,7 +50,7 @@ const BookingDetails = () => {
               )}
             </div>
             <div className="card-footer">
-              <button className="btn btn-dark px-3 py-2 mx-auto d-block">
+              <button onClick={goBack} className="btn btn-dark px-3 py-2 mx-auto d-block">
                 Go Back <FontAwesomeIcon className="ml-2" icon={faArrowLeft} />
               </button>
             </div>
