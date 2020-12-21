@@ -1,6 +1,8 @@
 # as-cinema-hall
 
-This is a movie ticket booking website.
+# Project Feature
+* This is a movie ticket booking website. (MERN STACK)
+* User can login by google and then booked ticket for their desired movie.
 
 # About Project Technology:
 * React JS (Frontend Framework)
