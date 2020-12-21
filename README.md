@@ -16,6 +16,10 @@ This is a movie ticket booking website.
 
 <img src='./client/as-cinema-hall/src/images/ui-screenshot/booking-page.png' alt='booking-page-image' />
 
+### Booking Details page
+
+<img src='./client/as-cinema-hall/src/images/ui-screenshot/booking-details-page.png' alt='booking-details-page-image' />
+
 
 # Live Website link
 [website](https://as-cinema-hall.web.app/)
