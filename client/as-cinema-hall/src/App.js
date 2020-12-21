@@ -7,6 +7,7 @@ import useLocalStorageState from "use-local-storage-state/dist";
 import Bookings from "./pages/Bookings/Bookings";
 import NoMatch from "./pages/NoMatch";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import BookingInfo from "./pages/BookingInfo/BookingInfo";
 
 export const UserContext = createContext([]);
 export const SelectedMovieContext = createContext([]);
@@ -35,6 +36,9 @@ function App() {
             </Route>
             <PrivateRoute path="/bookings">
               <Bookings />
+            </PrivateRoute>
+            <PrivateRoute path="/bookingInfo">
+              <BookingInfo />
             </PrivateRoute>
             <Route path="*">
               <NoMatch />

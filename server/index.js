@@ -165,6 +165,31 @@ client.connect((err) => {
       });
   });
 
+  // ticket booking information get by user name
+  app.get("/movie/ticket/booking", (req, res) => {
+    const name = req.query.name;
+    reservationCollection
+      .find({name})
+      .toArray((error, document) => {
+        if (!error && document.length > 0) {
+          res.json({
+            success: true,
+            data: document,
+          });
+        } else if (document.length <= 0) {
+            res.json({
+              success: true,
+              data: 'Nothing found'
+            })
+        } else {
+          res.json({
+            success: false,
+            error: error,
+          })
+        }
+      })
+  });
+
   // update booked seat count
   app.patch('/movie/update/:id', (req, res) => {
     console.log(req.body);

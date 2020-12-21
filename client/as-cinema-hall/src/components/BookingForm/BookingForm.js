@@ -6,12 +6,14 @@ import Seat from "../Seat/Seat";
 import { faCouch, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import swal from "sweetalert";
+import { useHistory } from "react-router-dom";
 
 const BookingForm = () => {
   const [selectedMovie, setSelectedMovie] = useContext(SelectedMovieContext);
   const [counts, setCounts] = useState([]);
   const [cart, setCart] = useState([]);
   const [loggedInUser, setLoggedInUser] = useContext(UserContext);
+  let history = useHistory();
 
   useEffect(() => {
     const movieName = selectedMovie.movieName;
@@ -52,6 +54,7 @@ const BookingForm = () => {
       .then((data) => {
         if (data.data) {
           updateBookedSeat();
+          history.push('/bookingInfo')
           swal(
             "success",
             "your booking has been placed successfully",
