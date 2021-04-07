@@ -31,7 +31,7 @@ client.connect((err) => {
   // all route list start from here
   // root route
   app.get("/", (req, res) => {
-    res.send("<h1>Hello, From AS CINEMA HALL ROOT ROUTE</h1>");
+    res.sendFile(__dirname + '/index.html');
   });
 
   // movie collection post method
