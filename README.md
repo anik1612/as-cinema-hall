@@ -2,7 +2,9 @@
 
 # Project Feature
 * This is a movie ticket booking website. (MERN STACK)
-* User can login by google and then booked ticket for their desired movie.
+* User can login by google
+* User can booked ticket for their desired movie.
+* User can see their booked seat list.
 
 # About Project Technology:
 * React JS (Frontend Framework)
